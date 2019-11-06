@@ -86,7 +86,15 @@ Cuando un conjunto de usuarios consulta un enésimo número (superior a 1000000)
 **Preguntas**
 
 1. ¿Cuántos y cuáles recursos crea Azure junto con la VM?
+Se crean 7 recursos en total: Virtual network, Storage account, Virtual machine, Public IP address,Network security group,Network interface, Disk.
 2. ¿Brevemente describa para qué sirve cada recurso?
+   -  Virtual network: Azure Virtual Network (VNet) es el bloque de construcción fundamental para su red privada en Azure. VNet permite que muchos tipos de recursos de Azure, como Azure Virtual Machines (VM), se comuniquen de manera segura entre sí, Internet y redes locales. VNet es similar a una red tradicional que operaría en su propio centro de datos, pero trae consigo beneficios adicionales de la infraestructura de Azure, como escala, disponibilidad y aislamiento.
+   -  Storage account: Una cuenta de Azure Storage contiene todos sus objetos de datos de Azure Storage: blobs, archivos, colas, tablas y discos. La cuenta de almacenamiento proporciona un espacio de nombres único para sus datos de Azure Storage al que se puede acceder desde cualquier lugar del mundo a través de HTTP o HTTPS. Los datos en su cuenta de almacenamiento de Azure son duraderos y altamente disponibles, seguros y escalables de forma masiva.
+   -  Virtual machine: una máquina virtual es un software que simula un sistema de computación y puede ejecutar programas como si fuese una computadora real. Este software en un principio fue definido como "un duplicado eficiente y aislado de una máquina física". La acepción del término actualmente incluye a máquinas virtuales que no tienen ninguna equivalencia directa con ningún hardware real.
+   -  Public IP address: es el identificador de nuestra red desde el exterior, es decir, la de nuestro router de casa, que es el que es visible desde fuera.
+   -  Network security group: Un grupo de seguridad de red contiene reglas de seguridad que permiten o niegan el tráfico de red entrante a, o el tráfico de red saliente, de varios tipos de recursos de Azure.
+   -  Network interface: Una interfaz de red permite que una máquina virtual de Azure se comunique con Internet, Azure y recursos locales.
+   -  Disk: unidad de disco duro o unidad de disco rígido es un dispositivo de almacenamiento de datos.
 3. ¿Al cerrar la conexión ssh con la VM, por qué se cae la aplicación que ejecutamos con el comando `npm FibonacciApp.js`? ¿Por qué debemos crear un *Inbound port rule* antes de acceder al servicio?
 4. Adjunte tabla de tiempos e interprete por qué la función tarda tando tiempo.
 5. Adjunte imágen del consumo de CPU de la VM e interprete por qué la función consume esa cantidad de CPU.
