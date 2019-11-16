@@ -25,11 +25,19 @@ Cuando un conjunto de usuarios consulta un enésimo número (superior a 1000000)
 
 ![Imágen 1](images/part1/part1-vm-basic-config.png)
 
+![Imagen](images/crearMV.png)
+
 2. Para conectarse a la VM use el siguiente comando, donde las `x` las debe remplazar por la IP de su propia VM.
 
     `ssh scalability_lab@xxx.xxx.xxx.xxx`
+    
+![Imagen](images/conexionsshMV.png)
 
 3. Instale node, para ello siga la sección *Installing Node.js and npm using NVM* que encontrará en este [enlace](https://linuxize.com/post/how-to-install-node-js-on-ubuntu-18.04/).
+
+![Imagen](images/installnodeandnpm1MV.png)
+![Imagen](images/installnodeandnpm2MV.png)
+
 4. Para instalar la aplicación adjunta al Laboratorio, suba la carpeta `FibonacciApp` a un repositorio al cual tenga acceso y ejecute estos comandos dentro de la VM:
 
     `git clone <your_repo>`
@@ -38,15 +46,21 @@ Cuando un conjunto de usuarios consulta un enésimo número (superior a 1000000)
 
     `npm install`
 
+![Imagen](images/installfibonacciappMV.png)
+
 5. Para ejecutar la aplicación puede usar el comando `npm FibinacciApp.js`, sin embargo una vez pierda la conexión ssh la aplicación dejará de funcionar. Para evitar ese compartamiento usaremos *forever*. Ejecute los siguientes comando dentro de la VM.
 
     `npm install forever -g`
 
     `forever start FibinacciApp.js`
+    
+![Imagen](images/startJSforeverMV.png)
 
 6. Antes de verificar si el endpoint funciona, en Azure vaya a la sección de *Networking* y cree una *Inbound port rule* tal como se muestra en la imágen. Para verificar que la aplicación funciona, use un browser y user el endpoint `http://xxx.xxx.xxx.xxx:3000/fibonacci/6`. La respuesta debe ser `The answer is 8`.
 
 ![](images/part1/part1-vm-3000InboudRule.png)
+
+![Imagen](images/pruebaJSconexion.png)
 
 7. La función que calcula en enésimo número de la secuencia de Fibonacci está muy mal construido y consume bastante CPU para obtener la respuesta. Usando la consola del Browser documente los tiempos de respuesta para dicho endpoint usando los siguintes valores:
     * 1000000
@@ -60,12 +74,20 @@ Cuando un conjunto de usuarios consulta un enésimo número (superior a 1000000)
     * 1080000
     * 1090000    
 
+![Imagen](images/tiemposMV.png)
+
 8. Dírijase ahora a Azure y verifique el consumo de CPU para la VM. (Los resultados pueden tardar 5 minutos en aparecer).
 
 ![Imágen 2](images/part1/part1-vm-cpu.png)
 
+![Imagen](images/usoCPUMV.png)
+
 9. Ahora usaremos Postman para simular una carga concurrente a nuestro sistema. Siga estos pasos.
-    * Instale newman con el comando `npm install newman -g`. Para conocer más de Newman consulte el siguiente [enlace](https://learning.getpostman.com/docs/postman/collection-runs/command-line-integration-with-newman/).
+    * Instale newman con el comando `npm install newman -g`. Para conocer más de Newman consulte el siguiente [enlace]
+    
+![Imagen](images/installnewman.png)
+    
+ (https://learning.getpostman.com/docs/postman/collection-runs/command-line-integration-with-newman/).
     * Diríjase hasta la ruta `FibonacciApp/postman` en una maquina diferente a la VM.
     * Para el archivo `[ARSW_LOAD-BALANCING_AZURE].postman_environment.json` cambie el valor del parámetro `VM1` para que coincida con la IP de su VM.
     * Ejecute el siguiente comando.
@@ -75,12 +97,34 @@ Cuando un conjunto de usuarios consulta un enésimo número (superior a 1000000)
     newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALANCING_AZURE].postman_environment.json -n 10
     ```
 
+![Imagen](images/newmanpostmanMV.png)
+
 10. La cantidad de CPU consumida es bastante grande y un conjunto considerable de peticiones concurrentes pueden hacer fallar nuestro servicio. Para solucionarlo usaremos una estrategia de Escalamiento Vertical. En Azure diríjase a la sección *size* y a continuación seleccione el tamaño `B2ms`.
 
 ![Imágen 3](images/part1/part1-vm-resize.png)
 
+#### El tamaño `B2ms` no se encontraba disponible, por esto se selecciono el tamaño mas parecido que era el `DS11`.
+
+![Imagen](images/cambiartamañoMV.png)
+
 11. Una vez el cambio se vea reflejado, repita el paso 7, 8 y 9.
+
+### 7 de nuevo con nuevo tamaño
+
+![Imagen](images/tiempos2MV.png)
+
+### 8 de nuevo con nuevo tamaño
+
+![Imagen](images/usoCPU2MV.png)
+
+### 9 de nuevo con nuevo tamaño
+
+![Imagen](images/newmanpostman2MV.png)
+
 12. Evalue el escenario de calidad asociado al requerimiento no funcional de escalabilidad y concluya si usando este modelo de escalabilidad logramos cumplirlo.
+
+`El requerimiento no se logra cumplir del todo, es verdad que los tiempos de respuesta disminuyen, pero es muy poco, esto debido a que aumentar el tamaño de la MV es inutil cuando la implentacion de la aplicacion no busca aprovechar los recursos que tiene a disposicion, con esto hago referencia a que la aplicacion no usa varios hilos para realizar las operaciones, siempre usa un hilo, esto se ve refleado en un mal aprovechamiento de recursos.`
+
 13. Vuelva a dejar la VM en el tamaño inicial para evitar cobros adicionales.
 
 **Preguntas**
@@ -98,10 +142,20 @@ Se crean 7 recursos en total: Virtual network, Storage account, Virtual machine,
 3. ¿Al cerrar la conexión ssh con la VM, por qué se cae la aplicación que ejecutamos con el comando `npm FibonacciApp.js`? ¿Por qué debemos crear un *Inbound port rule* antes de acceder al servicio?
    -  La conexion ssh es la que permite la ejecucion de la aplicacion, es por medio de esta que la ejecucion queda abierta publicamente, sin esta conexion la ejecucion no es visible. El inbound port rule se crea porque la ejecucion de la aplicacion se realiza por un puerto especifico, sin esta, aunque se ejecute la aplicacion, no seria psoible acceder a ella.
 4. Adjunte tabla de tiempos e interprete por qué la función tarda tando tiempo.
+
+![Imagen](images/tiemposMV.png)
+   
 5. Adjunte imágen del consumo de CPU de la VM e interprete por qué la función consume esa cantidad de CPU.
+
+![Imagen](images/usoCPU2MV.png)
+![Imagen](images/usoCPU2-2MV.png)
+
 6. Adjunte la imagen del resumen de la ejecución de Postman. Interprete:
     * Tiempos de ejecución de cada petición.
     * Si hubo fallos documentelos y explique.
+    
+![Imagen](images/newmanpostman2MV.png)
+   
 7. ¿Cuál es la diferencia entre los tamaños `B2ms` y `B1ls` (no solo busque especificaciones de infraestructura)?
    -  `B2ms` solo tiene un procesador, mientras que `B1ls` tiene dos, ademas de mas memoria ram y mas almacenamiento. En resumen es una maquina mas robusta, capas de realizar tareas mas eficientemente.
 8. ¿Aumentar el tamaño de la VM es una buena solución en este escenario?, ¿Qué pasa con la FibonacciApp cuando cambiamos el tamaño de la VM?
