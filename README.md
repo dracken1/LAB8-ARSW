@@ -132,6 +132,9 @@ Cuando un conjunto de usuarios consulta un enésimo número (superior a 1000000)
 1. ¿Cuántos y cuáles recursos crea Azure junto con la VM?
 Se crean 7 recursos en total: Virtual network, Storage account, Virtual machine, Public IP address,Network security group,Network interface, Disk.
 2. ¿Brevemente describa para qué sirve cada recurso?
+
+![Imagen](images/recursosMV.png)
+
    -  Virtual network: Azure Virtual Network (VNet) es el bloque de construcción fundamental para su red privada en Azure. VNet permite que muchos tipos de recursos de Azure, como Azure Virtual Machines (VM), se comuniquen de manera segura entre sí, Internet y redes locales. VNet es similar a una red tradicional que operaría en su propio centro de datos, pero trae consigo beneficios adicionales de la infraestructura de Azure, como escala, disponibilidad y aislamiento.
    -  Storage account: Una cuenta de Azure Storage contiene todos sus objetos de datos de Azure Storage: blobs, archivos, colas, tablas y discos. La cuenta de almacenamiento proporciona un espacio de nombres único para sus datos de Azure Storage al que se puede acceder desde cualquier lugar del mundo a través de HTTP o HTTPS. Los datos en su cuenta de almacenamiento de Azure son duraderos y altamente disponibles, seguros y escalables de forma masiva.
    -  Virtual machine: una máquina virtual es un software que simula un sistema de computación y puede ejecutar programas como si fuese una computadora real. Este software en un principio fue definido como "un duplicado eficiente y aislado de una máquina física". La acepción del término actualmente incluye a máquinas virtuales que no tienen ninguna equivalencia directa con ningún hardware real.
