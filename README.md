@@ -96,15 +96,20 @@ Se crean 7 recursos en total: Virtual network, Storage account, Virtual machine,
    -  Network interface: Una interfaz de red permite que una máquina virtual de Azure se comunique con Internet, Azure y recursos locales.
    -  Disk: unidad de disco duro o unidad de disco rígido es un dispositivo de almacenamiento de datos.
 3. ¿Al cerrar la conexión ssh con la VM, por qué se cae la aplicación que ejecutamos con el comando `npm FibonacciApp.js`? ¿Por qué debemos crear un *Inbound port rule* antes de acceder al servicio?
+   -  La conexion ssh es la que permite la ejecucion de la aplicacion, es por medio de esta que la ejecucion queda abierta publicamente, sin esta conexion la ejecucion no es visible. El inbound port rule se crea porque la ejecucion de la aplicacion se realiza por un puerto especifico, sin esta, aunque se ejecute la aplicacion, no seria psoible acceder a ella.
 4. Adjunte tabla de tiempos e interprete por qué la función tarda tando tiempo.
 5. Adjunte imágen del consumo de CPU de la VM e interprete por qué la función consume esa cantidad de CPU.
 6. Adjunte la imagen del resumen de la ejecución de Postman. Interprete:
     * Tiempos de ejecución de cada petición.
     * Si hubo fallos documentelos y explique.
 7. ¿Cuál es la diferencia entre los tamaños `B2ms` y `B1ls` (no solo busque especificaciones de infraestructura)?
+   -  `B2ms` solo tiene un procesador, mientras que `B1ls` tiene dos, ademas de mas memoria ram y mas almacenamiento. En resumen es una maquina mas robusta, capas de realizar tareas mas eficientemente.
 8. ¿Aumentar el tamaño de la VM es una buena solución en este escenario?, ¿Qué pasa con la FibonacciApp cuando cambiamos el tamaño de la VM?
+   -  Aumentar el tamaño de la maquina virtual no es buena solucion considerando que no importa cuantos procesadores se agreguen el codigo no impemente una solucion multihilo o semejante, por esto no importa cuantos procesadores se tengan el tiempo es practicamente el mismo. Por otra parte si se mejoran las velocidades de reloj o las instrucciones por ciclo, la mejora si se notaria. En este escenario la mejora es insignificante en terminos de tiempo.
 9. ¿Qué pasa con la infraestructura cuando cambia el tamaño de la VM? ¿Qué efectos negativos implica?
+   -  Principalmente el porcentaje de recursos utilizados disminuye, ya que la aplicacion sige consumiendo los mismos recursos que antes, pero este es tambien el principal efecto negativo, considerando que se duplicaron los recursos, la mitad de los recursos no se estan utilizando. En resumen se estan desperdiciando recursos.
 10. ¿Hubo mejora en el consumo de CPU o en los tiempos de respuesta? Si/No ¿Por qué?
+   -  Se disminuyo el consumo de cpu como se puede apreciar en el grafico, pero esto es debido a que se duplico el numero de nucleos y la aplicacion sigue consumiendo solo 1. Los tiempos de respuesta se redujeron en la mayoria de los casos pero en una medida muy pequeña.
 11. Aumente la cantidad de ejecuciones paralelas del comando de postman a `4`. ¿El comportamiento del sistema es porcentualmente mejor?
 
 
